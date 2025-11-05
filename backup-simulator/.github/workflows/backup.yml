@@ -1,0 +1,16 @@
+name: Auto Backup Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run backup script
+        run: bash auto_backup.sh
