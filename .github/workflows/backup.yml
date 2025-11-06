@@ -1,27 +1,20 @@
-name: Backup and Deployment Pipeline
+name: Simulated Backup and Deploy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * *'  # Runs daily at 1 AM UTC
 
 jobs:
   backup:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Run backup script
-        run: |
-          cd backup-simulator
-          bash auto_backup.sh
-
-      - name: List files after backup
-        run: |
-          cd backup-simulator
-          echo "Checking generated files..."
-          ls -R
+        run: bash backup-simulator/auto_backup.sh
 
       - name: Upload backup result as artifact
         uses: actions/upload-artifact@v4
@@ -31,24 +24,10 @@ jobs:
             backup-simulator/backups/
             backup-simulator/backup_log.txt
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: backup
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: backup-results
-          path: downloaded_backup
-
-      - name: Verify downloaded files
+      - name: Simulate deploy
         run: |
-          echo "Listing contents of downloaded_backup/"
-          ls -R downloaded_backup
-
-      - name: Simulate deployment
-        run: |
-          echo "Starting simulated deployment..."
-          mkdir -p deployed_backup
-          cp -r downloaded_backup/* deployed_backup/
-          echo "Deployment completed successfully at $(date)"
+          mkdir -p deployed_backups
+          cp backup-simulator/backups/*.tar.gz deployed_backups/ || echo "No backup files found to deploy."
+          cp backup-simulator/backup_log.txt deployed_backups/ || echo "No log file found."
+          echo "Backup successfully deployed locally at $(date)" >> deployed_backups/deploy_log.txt
+          ls -lh deployed_backups
