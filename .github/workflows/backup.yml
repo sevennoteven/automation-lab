@@ -1,16 +1,23 @@
-name: Backup Simulator
+name: Backup Automation
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   run-backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Run backup script
         run: bash backup-simulator/auto_backup.sh
+
+      - name: Upload backup result as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-results
+          path: |
+            backup-simulator/backups/
+            backup-simulator/backup_log.txt
