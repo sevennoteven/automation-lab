@@ -31,3 +31,5 @@ find "$BACKUP_DIR" -type f -name "*.tar.gz" -mtime +7 -exec rm {} \;
 echo "[$(date +'%Y-%m-%d %H:%M:%S')] Old backups deleted (older than 7 days)" >> "$LOG_FILE"
 
 echo "Backup simulation completed successfully!"
+
+echo "GitHub Acions test run successful at $(date) --Tested by Jay Gaces as part of learning and hands-on experience."
