@@ -17,12 +17,12 @@ jobs:
         run: bash backup-simulator/auto_backup.sh
 
       - name: Upload backup result as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: backup-results
-          path: |
-            backup-simulator/backups/
-            backup-simulator/backup_log.txt
+  	uses: actions/upload-artifact@v4
+ 	with:
+    	name: backup-results
+    	path: |
+      	  backups/
+      	  backup_log.txt
 
       - name: Simulate deploy
         run: |
