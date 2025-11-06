@@ -3,31 +3,29 @@ name: Simulated Backup and Deploy
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 1 * * *'  # Runs daily at 1 AM UTC
+    - cron: "0 1 * * *"
 
 jobs:
-  backup:
+  backup_job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Run backup script
         run: bash backup-simulator/auto_backup.sh
 
+      - name: List files after backup
+        run: ls -R
+
       - name: Upload backup result as artifact
-  	uses: actions/upload-artifact@v4
- 	with:
-    	name: backup-results
-    	path: |
-      	  backups/
-      	  backup_log.txt
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-results
+          path: |
+            backups/
+            backup_log.txt
 
       - name: Simulate deploy
-        run: |
-          mkdir -p deployed_backups
-          cp backup-simulator/backups/*.tar.gz deployed_backups/ || echo "No backup files found to deploy."
-          cp backup-simulator/backup_log.txt deployed_backups/ || echo "No log file found."
-          echo "Backup successfully deployed locally at $(date)" >> deployed_backups/deploy_log.txt
-          ls -lh deployed_backups
+        run: echo "Simulated deploy step completed successfully."
