@@ -33,3 +33,5 @@ echo "[$(date +'%Y-%m-%d %H:%M:%S')] Old backups deleted (older than 7 days)" >>
 echo "Backup simulation completed successfully!"
 
 echo "GitHub Acions test run successful at $(date) --Tested by Jay Gaces as part of learning and hands-on experience."
+
+echo "Testing again because I can't still believe that I'm learning GitHub using GitBash for preparation to the future endeavor. --Jay Gaces"
